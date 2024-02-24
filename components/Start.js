@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     signup: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        backgroundColor: '#fff',
         height: '44%',
         width: '88%',
         marginBottom: 100,
@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     colorIsSelected: {
-        backgroundColor: "white",
         height: 40,
         width: 40,
         borderRadius: 40 / 2,
