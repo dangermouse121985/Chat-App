@@ -1,36 +1,37 @@
 import { View, StyleSheet, Text, KeyboardAvoidingView, Platform } from "react-native";
 import { useEffect, useState } from "react";
 import { Bubble, GiftedChat } from "react-native-gifted-chat";
+import { DocumentSnapshot, addDoc, collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 
-const Chat = ({ route, navigation }) => {
+const Chat = ({ db, route, navigation }) => {
     const [messages, setMessages] = useState([]);
-    const { username, chatColor } = route.params;
+    const { username, chatColor, userID } = route.params;
 
     // initial user message and system messages
     useEffect(() => {
-        setMessages([
-            {
-                _id: 1,
-                text: "Hello Developer",
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: "React Native",
-                    avatar: "https://placeimg.com/140/140/any"
-                },
-            },
-            {
-                _id: 2,
-                text: `${username} has entered the chat. Welcome!!`,
-                createdAt: new Date(),
-                system: true,
-            },
-        ]);
+        const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+        const unsubMessages = onSnapshot(q, (DocumentSnapshot) => {
+            let newMessages = [];
+            DocumentSnapshot.forEach(doc => {
+                newMessages.push({
+                    id: doc.id,
+                    ...doc.data(),
+                    createdAt: new Date(doc.data().createdAt.toMillis())
+                })
+            });
+            setMessages(newMessages);
+        })
+
+        //clean up code
+        return () => {
+            if (unsubMessages) unsubMessages();
+        }
+
     }, []);
 
     // append new messages to previous list of messages on message send
     const onSend = (newMessages) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages))
+        addDoc(collection(db, "messages"), newMessages[0]);
     }
 
     useEffect(() => {
@@ -59,7 +60,8 @@ const Chat = ({ route, navigation }) => {
                 renderBubble={renderBubble}
                 onSend={messages => onSend(messages)}
                 user={{
-                    _id: 1
+                    _id: userID,
+                    name: username
                 }}
             />
             {Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null}
