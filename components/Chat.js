@@ -7,7 +7,7 @@ const Chat = ({ db, route, navigation }) => {
     const [messages, setMessages] = useState([]);
     const { username, chatColor, userID } = route.params;
 
-    // initial user message and system messages
+    // Fetch messages from database in real time
     useEffect(() => {
         const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
         const unsubMessages = onSnapshot(q, (DocumentSnapshot) => {
@@ -29,11 +29,12 @@ const Chat = ({ db, route, navigation }) => {
 
     }, []);
 
-    // append new messages to previous list of messages on message send
+    // append new messages to previous list of messages on message send and save to Firestore database
     const onSend = (newMessages) => {
         addDoc(collection(db, "messages"), newMessages[0]);
     }
 
+    // Display Username in title header
     useEffect(() => {
         navigation.setOptions({ title: username })
     }, [])

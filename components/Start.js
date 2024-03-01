@@ -7,6 +7,7 @@ const Start = ({ navigation }) => {
     const [username, setUsername] = useState('');
     const [chatColor, setChatColor] = useState('')
 
+    // log user in anonymously
     const signInUser = () => {
         signInAnonymously(auth)
             .then(result => {
