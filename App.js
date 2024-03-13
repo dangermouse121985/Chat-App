@@ -31,7 +31,7 @@ export default function App() {
 
   const db = getFirestore(app);
 
-  // Check network connectivity and display "Connection Lost" message is no network.
+  // Check network connectivity and display "Connection Lost" message is no network. Disable/Reenable Firestore depending on network connectivity.
   useEffect(() => {
     if (ConnectionStatus.isConnected === false) {
       Alert.alert("Connection Lost!");
