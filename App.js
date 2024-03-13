@@ -6,10 +6,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { disableNetwork, enableNetwork, getFirestore } from "firebase/firestore";
+
+import { useEffect } from 'react';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { Alert } from 'react-native';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+  const ConnectionStatus = useNetInfo();
 
   // Your web app's Firebase configuration
   const firebaseConfig = {
@@ -26,6 +31,16 @@ export default function App() {
 
   const db = getFirestore(app);
 
+  // Check network connectivity and display "Connection Lost" message is no network.
+  useEffect(() => {
+    if (ConnectionStatus.isConnected === false) {
+      Alert.alert("Connection Lost!");
+      disableNetwork(db);
+    } else if (ConnectionStatus.isConnected === true) {
+      enableNetwork(db);
+    }
+  }, [ConnectionStatus.isConnected])
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -38,7 +53,7 @@ export default function App() {
         <Stack.Screen
           name='Chat'
         >
-          {props => <Chat db={db} {...props} />}
+          {props => <Chat isConnected={ConnectionStatus.isConnected} db={db} {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
