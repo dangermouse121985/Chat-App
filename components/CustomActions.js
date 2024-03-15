@@ -91,7 +91,14 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
             style={styles.container}
             onPress={onActionPress}>
             <View style={[styles.wrapper, wrapperStyle]}>
-                <Text style={[styles.iconText, iconTextStyle]}>+</Text>
+                <Text
+                    style={[styles.iconText, iconTextStyle]}
+                    accessible={true}
+                    accessibilityLabel="More Options"
+                    accessibilityHint="Send an image or your geolocation."
+                >
+                    +
+                </Text>
             </View>
         </TouchableOpacity>
     )
@@ -106,14 +113,15 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         borderRadius: 13,
-        boarderColor: '#b2b2b2',
+        borderColor: '#b2b2b2',
         borderWidth: 2,
         flex: 1,
     },
     iconText: {
         color: '#b2b2b2',
         fontWeight: 'bold',
-        fontSize: 10,
+        fontSize: 26,
+        lineHeight: 26,
         backgroundColor: 'transparent',
         textAlign: 'center',
     },

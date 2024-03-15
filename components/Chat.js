@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
 import { useEffect, useState } from "react";
 import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
-import { addDoc, collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomActions from "./CustomActions";
 import MapView from "react-native-maps";
