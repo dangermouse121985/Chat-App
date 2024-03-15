@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import { useState } from "react";
 import { Button, TextInput, View, StyleSheet, Text, ImageBackground, TouchableOpacity, KeyboardAvoidingView, Platform, Alert } from "react-native";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
@@ -144,6 +145,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
         height: '44%',
+        minHeight: 300,
         width: '88%',
         marginBottom: 100,
     },

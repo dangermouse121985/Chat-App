@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
 import Start from './components/Start';
 import Chat from './components/Chat.js';
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,6 +10,7 @@ import { disableNetwork, enableNetwork, getFirestore } from "firebase/firestore"
 import { useEffect } from 'react';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { Alert } from 'react-native';
+import { getStorage } from "firebase/storage"
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -30,6 +30,7 @@ export default function App() {
   const app = initializeApp(firebaseConfig);
 
   const db = getFirestore(app);
+  const storage = getStorage(app);
 
   // Check network connectivity and display "Connection Lost" message is no network. Disable/Reenable Firestore depending on network connectivity.
   useEffect(() => {
@@ -53,7 +54,11 @@ export default function App() {
         <Stack.Screen
           name='Chat'
         >
-          {props => <Chat isConnected={ConnectionStatus.isConnected} db={db} {...props} />}
+          {props => <Chat
+            isConnected={ConnectionStatus.isConnected}
+            db={db}
+            storage={storage}
+            {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
