@@ -12,18 +12,20 @@ import { useNetInfo } from '@react-native-community/netinfo';
 import { Alert } from 'react-native';
 import { getStorage } from "firebase/storage"
 
+import { API_Key, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID } from '@env';
+
 export default function App() {
   const Stack = createNativeStackNavigator();
   const ConnectionStatus = useNetInfo();
 
   // Your web app's Firebase configuration
   const firebaseConfig = {
-    apiKey: "AIzaSyAR2D6HDSB5sXR2BDHjRGycxDbi3m292iM",
-    authDomain: "chat-app-36941.firebaseapp.com",
-    projectId: "chat-app-36941",
-    storageBucket: "chat-app-36941.appspot.com",
-    messagingSenderId: "879873403282",
-    appId: "1:879873403282:web:d73ea3f239d895abd9794b"
+    apiKey: API_Key,
+    authDomain: AUTH_DOMAIN,
+    projectId: PROJECT_ID,
+    storageBucket: STORAGE_BUCKET,
+    messagingSenderId: MESSAGING_SENDER_ID,
+    appId: APP_ID
   };
 
   // Initialize Firebase
