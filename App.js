@@ -12,7 +12,7 @@ import { useNetInfo } from '@react-native-community/netinfo';
 import { Alert } from 'react-native';
 import { getStorage } from "firebase/storage"
 
-import { API_Key, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID } from '@env';
+import { API_KEY, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID } from '@env';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -20,7 +20,7 @@ export default function App() {
 
   // Your web app's Firebase configuration
   const firebaseConfig = {
-    apiKey: API_Key,
+    apiKey: API_KEY,
     authDomain: AUTH_DOMAIN,
     projectId: PROJECT_ID,
     storageBucket: STORAGE_BUCKET,
