@@ -139,7 +139,7 @@ Follow these steps to install and run the project locally:
 5. Start the server:
 
    ```
-   npm start
+   expo start
    ```
 
 6. You should now be able to run the app on an emulator or the Expo Go App on your phone
