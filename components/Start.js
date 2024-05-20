@@ -1,10 +1,24 @@
-import { useEffect, useState } from "react";
-import { Button, TextInput, View, StyleSheet, Text, ImageBackground, TouchableOpacity, ScrollView, KeyboardAvoidingView, Image } from "react-native";
-
+import React from "react";
+import { useState } from "react";
+import { Button, TextInput, View, StyleSheet, Text, ImageBackground, TouchableOpacity, KeyboardAvoidingView, Platform, Alert } from "react-native";
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 const Start = ({ navigation }) => {
+    const auth = getAuth();
     const [username, setUsername] = useState('');
     const [chatColor, setChatColor] = useState('')
+
+    // log user in anonymously
+    const signInUser = () => {
+        signInAnonymously(auth)
+            .then(result => {
+                navigation.navigate("Chat", { userID: result.user.uid, username: username, chatColor: chatColor });
+                Alert.alert("Signed In Successfully!");
+            })
+            .catch((error) => {
+                Alert.alert("Unable to sign in. Try again later.")
+            })
+    }
 
 
     // Set Chat page background color
@@ -32,16 +46,57 @@ const Start = ({ navigation }) => {
                             {/* div behind color buttons. Adds black outline around button when selected */}
 
                             <View style={[styles.colorIsSelected, chatColor === '#090C08' ? { borderColor: "#000" } : null]}>
-                                <TouchableOpacity style={[styles.colorButtons, styles.black]} onPress={() => getChatColor('#090C08')}></TouchableOpacity>
+                                {/** Accessibility props added to Chat Background Color Selectors*/}
+                                <TouchableOpacity
+                                    style={[
+                                        styles.colorButtons,
+                                        styles.black]}
+                                    onPress={() => getChatColor('#090C08')}
+                                    accessible={true}
+                                    accessibilityLabel="Black Chat Background Color"
+                                    accessibilityHint="Choose Black for your Chat's Background"
+                                    accessibilityRole="button"
+                                >
+                                </TouchableOpacity>
                             </View>
                             <View style={[styles.colorIsSelected, chatColor === '#474056' ? { borderColor: "#000" } : null]}>
-                                <TouchableOpacity style={[styles.colorButtons, styles.grape]} onPress={() => getChatColor('#474056')}></TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[
+                                        styles.colorButtons,
+                                        styles.grape]}
+                                    onPress={() => getChatColor('#474056')}
+                                    accessible={true}
+                                    accessibilityLabel="Grape Chat Background Color"
+                                    accessibilityHint="Choose Grape for your Chat's Background"
+                                    accessibilityRole="button"
+                                >
+                                </TouchableOpacity>
                             </View>
                             <View style={[styles.colorIsSelected, chatColor === '#8A95A5' ? { borderColor: "#000" } : null]}>
-                                <TouchableOpacity style={[styles.colorButtons, styles.grey]} onPress={() => getChatColor('#8A95A5')}></TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[
+                                        styles.colorButtons,
+                                        styles.grey]}
+                                    onPress={() => getChatColor('#8A95A5')}
+                                    accessible={true}
+                                    accessibilityLabel="Grey Chat Background Color"
+                                    accessibilityHint="Choose Grey for your Chat's Background"
+                                    accessibilityRole="button"
+                                >
+                                </TouchableOpacity>
                             </View>
                             <View style={[styles.colorIsSelected, chatColor === '#B9C6AE' ? { borderColor: "#000" } : null]}>
-                                <TouchableOpacity style={[styles.colorButtons, styles.green]} onPress={() => getChatColor('#B9C6AE')}></TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[
+                                        styles.colorButtons,
+                                        styles.green]}
+                                    onPress={() => getChatColor('#B9C6AE')}
+                                    accessible={true}
+                                    accessibilityLabel="Green Chat Background Color"
+                                    accessibilityHint="Choose green for your Chat's Background"
+                                    accessibilityRole="button"
+                                >
+                                </TouchableOpacity>
                             </View>
 
                         </View>
@@ -49,11 +104,12 @@ const Start = ({ navigation }) => {
                     <View style={styles.startButtonContainer}>
                         <Button style={styles.startButton}
                             title="Start Chatting"
-                            onPress={() => navigation.navigate('Chat', { username: username, chatColor: chatColor })}
+                            onPress={signInUser}
                         />
                     </View>
                 </View>
             </ImageBackground >
+            {Platform.OS === "ios" ? <KeyboardAvoidingView behavior="Padding" /> : null}
         </View >
     );
 }
@@ -89,6 +145,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
         height: '44%',
+        minHeight: 300,
         width: '88%',
         marginBottom: 100,
     },
